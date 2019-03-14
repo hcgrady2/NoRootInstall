@@ -21,15 +21,15 @@ public class Service {
             /** 创建ServerSocket*/
             // 创建一个ServerSocket在端口4521监听客户请求
             ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("服务端运行在" + PORT + "端口");
+            System.out.println("server run on :" + PORT + "port");
             while (true) {
                 // 侦听并接受到此Socket的连接,请求到来则产生一个Socket对象，并继续执行
                 Socket socket = serverSocket.accept();
-                System.out.println("监听请求到来则产生一个Socket对象，并继续执行");
+                System.out.println("accept...");
                 new CreateServerThread(socket);//当有请求时，启一个线程处理
             }
         } catch (Exception e) {
-            System.out.println("连接监听发生错误 Exception:" + e);
+            System.out.println("error happend::" + e);
         }finally{
 //            serverSocket.close();
         }
@@ -39,7 +39,7 @@ public class Service {
     class CreateServerThread extends Thread {
         Socket socket;
         public CreateServerThread(Socket s) throws IOException {
-            System.out.println("创建了一个新的连接线程");
+            System.out.println("create a new server thread");
             socket = s;
             start();
         }
@@ -49,29 +49,29 @@ public class Service {
                 /** 获取客户端传来的信息 */
                 // 由Socket对象得到输入流，并构造相应的BufferedReader对象
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                System.out.println("由Socket对象得到输入流，并构造相应的BufferedReader对象");
+                System.out.println("get bufferedReader");
                 String line = bufferedReader.readLine();
                 /** 发送服务端准备传输的 */
                 // 由Socket对象得到输出流，并构造PrintWriter对象
                 PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-                System.out.println("由Socket对象得到输出流，并构造PrintWriter对象");
+                System.out.println("get PrintWriter");
                 // 获取从客户端读入的字符串
-                System.out.println("while循环：获取从客户端读入的字符串");
-                System.out.println("while循环：客户端返回 : " + line);
+                System.out.println("while：get string from client");
+                System.out.println("while：client return : " + line);
                 String repeat = mServiceGetText.getText(line);
-                System.out.println("while循环：服务器将返回：" + repeat);
+                System.out.println("while：client while return：" + repeat);
                 //printWriter.print("hello Client, I am Server!");
                 printWriter.print(repeat);
-                System.out.println("while循环：准备刷新返回");
+                System.out.println("while ：regresh");
                 printWriter.flush();
-                System.out.println("while循环：已刷新返回");
-                System.out.println("关闭Socket");
+                System.out.println("while,refresh return");
+                System.out.println("close Socket");
                 /** 关闭Socket*/
                 printWriter.close();
                 bufferedReader.close();
                 socket.close();
             } catch (IOException e) {
-                System.out.println("socket 连接线程发生错误：" + e.toString());
+                System.out.println("socket error：" + e.toString());
             }
         }
     }

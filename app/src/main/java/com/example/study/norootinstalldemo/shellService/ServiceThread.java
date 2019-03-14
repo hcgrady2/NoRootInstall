@@ -10,7 +10,7 @@ public class ServiceThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println(">>>>>>Shell服务端程序被调用<<<<<<");
+        System.out.println(">>>>>>Shell Server is start ...<<<<<<");
         new Service(new Service.ServiceGetText() {
             @Override
             public String getText(String text) {
